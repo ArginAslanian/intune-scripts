@@ -7,10 +7,10 @@ Connect-ExchangeOnline
 $userEmail = Read-Host "Enter user's UPN (e.g. jdoe@xyz.com)"
 
 # Retrieve the user object to use its properties for the rest of the script
-$user = Get-MgUser -UserId $userEmail -Property DisplayName, Id, Mail
+$user = Get-MgUser -UserId $userEmail -Property DisplayName, Id, Mail -ErrorAction SilentlyContinue
 if (-not $user) { Write-Warning "User not found. Exiting."; return }
 
-Write-Host "Removing calendar events for the last 365 days..." -ForegroundColor Cyan
+Write-Host "Removing calendar events for the next 365 days..." -ForegroundColor Cyan
 # Cancel all meetings organized by the user
 Remove-CalendarEvents -Identity $user.Mail -CancelOrganizedMeetings -QueryWindowInDays 365 -Confirm:$false
 
